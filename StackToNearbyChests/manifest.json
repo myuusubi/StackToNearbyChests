@@ -5,6 +5,6 @@
    "Description": "Adds a button that stacks all items from your inventory into chests that have at least 1x of the item",
    "UniqueID": "Ilyaki.StackToNearbyChests",
    "EntryDll": "StackToNearbyChests.dll",
-   "MinimumApiVersion": "3.0",
-   "UpdateKeys": [ "Nexus:1787" ]
+   "MinimumApiVersion": "3.0.0",
+   "UpdateKeys": []
 }

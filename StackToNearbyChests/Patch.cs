@@ -1,7 +1,7 @@
-﻿using System;
+﻿using HarmonyLib;
+using System;
 using System.Linq;
 using System.Reflection;
-using Harmony;
 
 namespace StackToNearbyChests
 {
@@ -20,16 +20,30 @@ namespace StackToNearbyChests
 
 		public abstract Type[] GetTargetMethodArguments();
 
-		public void ApplyPatch(HarmonyInstance harmonyInstance)
+		public void ApplyPatch(Harmony harmonyInstance)
 		{
 			MethodBase targetMethod = String.IsNullOrEmpty(GetTargetMethodName()) ?
 				(MethodBase)GetTargetType().GetConstructor(GetTargetMethodArguments()) :
 				targetMethod = GetTargetType().GetMethod(GetTargetMethodName(), GetTargetMethodArguments());
 
-			harmonyInstance.Patch(targetMethod, new HarmonyMethod(GetType().GetMethod("Prefix")), new HarmonyMethod(GetType().GetMethod("Postfix")));
+			var prefixMethod = GetType().GetMethod("Prefix");
+			var postfixMethod = GetType().GetMethod("Postfix");
+
+			HarmonyMethod prefixPatch = null;
+			if (prefixMethod != null) {
+				prefixPatch = new HarmonyMethod(prefixMethod);
+			}
+
+			HarmonyMethod postfixPatch = null;
+			if (postfixMethod != null)
+			{
+				postfixPatch = new HarmonyMethod(postfixMethod);
+			}
+
+			harmonyInstance.Patch(targetMethod, prefixPatch, postfixPatch);
 		}
 
-		public static void PatchAll(HarmonyInstance harmonyInstance)
+		public static void PatchAll(Harmony harmonyInstance)
 		{
 			foreach (Type type in (from type in Assembly.GetExecutingAssembly().GetTypes()
 								   where type.IsClass && type.BaseType == typeof(Patch)

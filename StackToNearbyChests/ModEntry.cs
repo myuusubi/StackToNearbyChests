@@ -1,4 +1,4 @@
-﻿using Harmony;
+﻿using HarmonyLib;
 using Microsoft.Xna.Framework.Graphics;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
@@ -17,15 +17,7 @@ namespace StackToNearbyChests
 			Config = helper.ReadConfig<ModConfig>();
 			ButtonHolder.ButtonIcon = helper.Content.Load<Texture2D>(@"icon.png");
 
-			helper.Events.GameLoop.GameLaunched += this.OnGameLaunched;
-		}
-
-		/// <summary>Raised after the game is launched, right before the first update tick. This happens once per game session (unrelated to loading saves). All mods are loaded and initialised at this point, so this is a good time to set up mod integrations.</summary>
-		/// <param name="sender">The event sender.</param>
-		/// <param name="e">The event data.</param>
-		private void OnGameLaunched(object sender, GameLaunchedEventArgs e)
-		{
-			Patch.PatchAll(HarmonyInstance.Create("me.ilyaki.StackToNearbyChests"));
+			Patch.PatchAll(new Harmony("me.ilyaki.StackToNearbyChests"));
 		}
 	}
 }
