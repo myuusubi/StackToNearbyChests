@@ -15,9 +15,9 @@ namespace StackToNearbyChests
 		public override void Entry(IModHelper helper)
 		{
 			Config = helper.ReadConfig<ModConfig>();
-			ButtonHolder.ButtonIcon = helper.Content.Load<Texture2D>(@"icon.png");
+			ButtonHolder.ButtonIcon = helper.ModContent.Load<Texture2D>(@"icon.png");
 
-			Patch.PatchAll(new Harmony("me.ilyaki.StackToNearbyChests"));
+			Patch.PatchAll(new Harmony(this.ModManifest.UniqueID));
 		}
 	}
 }
