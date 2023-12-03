@@ -22,7 +22,7 @@ namespace StackToNearbyChests
 
 				//Find remaining stack size of CHEST item. check if player has the item, then remove as much as possible
 				//need to compare quality
-				foreach (Item chestItem in chest.items)
+				foreach (Item chestItem in chest.Items)
 				{
 					if (chestItem != null)
 					{
@@ -68,7 +68,8 @@ namespace StackToNearbyChests
 
 		private static IEnumerable<Chest> GetChestsAroundFarmer(StardewValley.Farmer farmer, int radius)
 		{
-			Vector2 farmerLocation = farmer.getTileLocation();
+			Vector2 farmerLocation = farmer.getStandingPosition();
+			farmerLocation = new Vector2(farmerLocation.X / 64, farmerLocation.Y / 64);
 
 			//Normal object chests
 			for (int dx = -radius; dx <= radius; dx++)
@@ -102,16 +103,13 @@ namespace StackToNearbyChests
 			}
 
 			//Mills and Junimo Huts
-			if (farmer.currentLocation is BuildableGameLocation buildableGameLocation)
-			{
-				foreach (Building building in buildableGameLocation.buildings)
-				{
-					if (Math.Abs(building.tileX.Value - farmerLocation.X) <= radius && Math.Abs(building.tileY.Value - farmerLocation.Y) <= radius)
-					{
-						if (building is JunimoHut junimoHut)
-							yield return junimoHut.output.Value;
-						if (building is Mill mill)
-							yield return mill.output.Value;
+			if (farmer.currentLocation != null) {
+				foreach (Building building in farmer.currentLocation.buildings) {
+					if (Math.Abs(building.tileX.Value - farmerLocation.X) <= radius && Math.Abs(building.tileY.Value - farmerLocation.Y) <= radius) {
+						Chest chest = building.GetBuildingChest("Output");
+						if (chest != null) {
+							yield return chest;
+						}
 					}
 				}
 			}

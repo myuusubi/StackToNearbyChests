@@ -68,7 +68,7 @@ namespace StackToNearbyChests
 		public static void PostDraw(SpriteBatch spriteBatch)
 		{
 			if (drawHoverText)
-				IClickableMenu.drawToolTip(spriteBatch, button.hoverText, "", null, false, -1, 0, -1, -1, null, -1);
+				IClickableMenu.drawToolTip(spriteBatch, button.hoverText, "", null, false, -1, 0, null, -1, null, -1);
 		}
 	}
 }
