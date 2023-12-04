@@ -1,6 +1,7 @@
 StackToNearbyChests
 ===
 A fork of the StackToNearbyChests mod, updated for the latest version of Stardew Valley.
+
 The mod, as the name implies, allows the player to click a button in their inventory that
 will automatically sort their items into the corresponding nearby chests. This is helpful
 for multiplayer playthroughs, where it's harder to keep a good organization system.
